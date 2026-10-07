@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bulk Certificate Generator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-label="Bulk certificate generator">
+        <div class="panel setup-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Certificate Studio</p>
+              <h1>Bulk Certificate Generator</h1>
+            </div>
+            <span class="status-pill" id="serviceStatus">Ready</span>
+          </div>
+
+          <form id="jobForm" class="form-grid">
+            <label>
+              <span>Course name</span>
+              <input name="course_name" type="text" value="Backend Engineering" required maxlength="200" />
+            </label>
+
+            <label>
+              <span>Issuer name</span>
+              <input name="issuer_name" type="text" value="Acme Learning" required maxlength="200" />
+            </label>
+
+            <label>
+              <span>Issue date</span>
+              <input name="issue_date" type="date" required />
+            </label>
+
+            <label>
+              <span>Event name</span>
+              <input name="event_name" type="text" value="October Cohort" maxlength="200" />
+            </label>
+
+            <div class="recipient-section">
+              <div class="section-bar">
+                <div>
+                  <h2>Recipients</h2>
+                  <p id="recipientCount">2 recipients</p>
+                </div>
+                <div class="recipient-actions">
+                  <button class="secondary" type="button" id="pasteToggle">Paste CSV</button>
+                  <button class="secondary" type="button" id="addRecipient">+ Add recipient</button>
+                </div>
+              </div>
+
+              <div class="csv-import" id="csvImport" hidden>
+                <label>
+                  <span>CSV recipients</span>
+                  <textarea id="csvInput" rows="4" placeholder="Name, email, optional message"></textarea>
+                </label>
+                <div class="actions compact-actions">
+                  <button class="primary" type="button" id="importCsv">Import recipients</button>
+                  <button class="ghost" type="button" id="clearCsv">Clear</button>
+                </div>
+              </div>
+
+              <div id="recipientList" class="recipient-list"></div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit" id="submitButton">Generate certificates</button>
+              <button class="ghost" type="button" id="sampleButton">Load sample</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="panel results-panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Job Status</p>
+              <h2 id="jobTitle">No job yet</h2>
+            </div>
+            <span class="status-pill muted" id="jobStatus">Idle</span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="progressLabel">0%</span>
+              <span id="progressCounts">0 generated</span>
+            </div>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div>
+              <span id="totalCount">0</span>
+              <p>Total</p>
+            </div>
+            <div>
+              <span id="successCount">0</span>
+              <p>Ready</p>
+            </div>
+            <div>
+              <span id="failureCount">0</span>
+              <p>Failed</p>
+            </div>
+          </div>
+
+          <div class="certificate-list" id="certificateList">
+            <div class="empty-state">
+              Submit a batch to see generation progress and PDF downloads here.
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <template id="recipientTemplate">
+      <div class="recipient-row">
+        <label>
+          <span>Name</span>
+          <input data-field="name" type="text" required maxlength="200" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input data-field="email" type="email" required />
+        </label>
+        <label class="message-field">
+          <span>Message</span>
+          <input data-field="custom_message" type="text" maxlength="500" />
+        </label>
+        <button class="icon-button" type="button" data-remove aria-label="Remove recipient">x</button>
+      </div>
+    </template>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
