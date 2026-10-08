@@ -33,19 +33,21 @@ The application uses SQLite and stores local data under the `data/` directory. T
 Start the FastAPI development server:
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8001
 ```
+
+On Windows, if startup fails with `WinError 10013`, the requested port may already be in use or restricted. Try another available port, for example `--port 8011`, and update the URL below to use that port. If the app is already running on port `8001`, open it instead of starting a second server.
 
 Open the frontend:
 
 ```text
-http://127.0.0.1:8000/
+http://127.0.0.1:8001/
 ```
 
 Open the interactive API documentation:
 
 ```text
-http://127.0.0.1:8000/docs
+http://127.0.0.1:8001/docs
 ```
 
 The frontend lets you add recipients manually or paste CSV-style rows:
@@ -75,7 +77,7 @@ pytest --basetemp .pytest-temp
 Send a `POST` request to `/jobs` with job details and at least one recipient.
 
 ```bash
-curl -X POST http://127.0.0.1:8000/jobs ^
+curl -X POST http://127.0.0.1:8001/jobs ^
   -H "Content-Type: application/json" ^
   -d "{\"course_name\":\"Backend Engineering\",\"issuer_name\":\"Acme Learning\",\"issue_date\":\"2026-10-07\",\"event_name\":\"October Cohort\",\"recipients\":[{\"name\":\"Asha Rao\",\"email\":\"asha@example.com\"},{\"name\":\"Dev Kumar\",\"email\":\"dev@example.com\",\"custom_message\":\"Great work\"}]}"
 ```
@@ -93,7 +95,7 @@ Example response:
 Check job progress with:
 
 ```bash
-curl http://127.0.0.1:8000/jobs/1
+curl http://127.0.0.1:8001/jobs/1
 ```
 
 The job status response includes:
@@ -110,7 +112,7 @@ The job status response includes:
 After a certificate has the `generated` status, download it with:
 
 ```bash
-curl -o certificate.pdf http://127.0.0.1:8000/jobs/1/certificates/1
+curl -o certificate.pdf http://127.0.0.1:8001/jobs/1/certificates/1
 ```
 
 The download endpoint format is:
